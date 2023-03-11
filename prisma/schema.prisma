@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+  city     City[]
+}
+
+model City {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model City_db {
+  id                  Int    @id @default(autoincrement())
+  owm_city_id         Int?
+  owm_city_name       String?
+  owm_latitude        Float?
+  owm_longitude       Float?
+  owm_country         String?
+  locality_short      String?
+  locality_long       String?
+  admin_level_1_short String?
+  admin_level_1_long  String?
+  admin_level_2_short String?
+  admin_level_2_long  String?
+  admin_level_3_short String?
+  admin_level_3_long  String?
+  admin_level_4_short String?
+  admin_level_4_long  String?
+  admin_level_5_short String?
+  admin_level_5_long  String?
+  country_short       String?
+  country_long        String?
+  postal_code         String?
+}
