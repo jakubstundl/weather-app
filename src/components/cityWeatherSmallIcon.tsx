@@ -4,8 +4,8 @@ import Image from "next/image";
 import wind from "../../public/wind-arrow.png";
 import temperatureMeter from "../../public/thermometer.png";
 import pressure from "../../public/pressure-indicator.png";
-
 import { windRotate } from "@/functions/windRotate";
+
 export default function CityWeatherSmallIcon({
   data,
 }: {
@@ -18,14 +18,15 @@ export default function CityWeatherSmallIcon({
     return src;
   };
   useEffect(() => {
+    
     let date: Date = new Date();
-
     date.setSeconds(date.getSeconds() + data.timezone);
-
-    setTimeString(`${date.toLocaleTimeString("cs").slice(0, -3)}`);
+    console.log("timezone",data.timezone);
+    
+    setTimeString(`${date.toLocaleTimeString("cs",{timeZone: "UTC"}).slice(0, -3)}`);
   }, [data.timezone, timeString]);
   return (
-    <div className="box-content bg-transparent border-4 rounded-xl border-orange-600 p-3 m-10 w-100">
+    <div className="box-content bg-transparent border-4 rounded-xl border-orange-600  p-3 m-10 w-[400px]">
       <p className="text-center">
         <span className="text-orange-600 text-3xl">{`${data.name}`}</span>
       </p>

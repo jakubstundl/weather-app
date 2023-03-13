@@ -3,15 +3,12 @@ import nookies from "nookies";
 import { getCitiesFromToken, getEmailFromToken } from "@/functions/auth";
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-import CitiesList from "@/components/citiesList";
-import { useState } from "react";
 import NoUserCities from "@/components/noUserCities";
 import UserCities from "@/components/userCities";
 import { getRandomCitiesData } from "@/functions/randomCitiesData";
 import { cityForFE, openWeatherData } from "@/interfaces/fetchedData";
 import bg1 from "../../public/bg1.jpg";
-
+import CitySearch from "@/components/citySearch";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,7 +32,13 @@ export default function Home({ data, user }: { data: any; user: string }) {
           className="w-full h-full object-cover"
         />
       </div>
-      <main className="flex justify-center w-screen">
+
+      <h1 className="text-center text-yellow-200 w-screen text-[100px]">
+        Weather in the world
+      </h1>
+      <main className="w-screen">
+        <CitySearch />
+      
         {user ? <UserCities user={user} /> : <NoUserCities data={data} />}
       </main>
     </>
