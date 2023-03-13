@@ -7,7 +7,6 @@ import NoUserCities from "@/components/noUserCities";
 import UserCities from "@/components/userCities";
 import { getRandomCitiesData } from "@/functions/randomCitiesData";
 import { cityForFE, openWeatherData } from "@/interfaces/fetchedData";
-import bg1 from "../../public/bg1.jpg";
 import CitySearch from "@/components/citySearch";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,22 +22,10 @@ export default function Home({ data, user }: { data: any; user: string }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="fixed w-screen h-screen -z-10">
-        <Image
-          src={bg1}
-          alt="Picture of the author"
-          width={1920}
-          height={1280}
-          className="w-full h-full object-cover"
-        />
-      </div>
 
-      <h1 className="text-center text-yellow-200 w-screen text-[100px]">
-        Weather in the world
-      </h1>
       <main className="w-screen">
         <CitySearch />
-      
+
         {user ? <UserCities user={user} /> : <NoUserCities data={data} />}
       </main>
     </>
@@ -49,7 +36,6 @@ export async function getServerSideProps(ctx: any) {
   // Parse
   const cookies = nookies.get(ctx);
   let cities: cityForFE[] | null;
-  let countries: string[] = [];
   let user: string | null;
   let data: openWeatherData[] = [];
   try {

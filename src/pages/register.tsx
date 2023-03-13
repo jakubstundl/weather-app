@@ -21,7 +21,6 @@ export default function Register() {
         email: form.current.elements[0].value,
         password: form.current.elements[1].value,
       };
-
       fetch("api/auth/register", {
         method: "POST",
         headers: {
@@ -43,17 +42,9 @@ export default function Register() {
   };
   return (
     <>
-      <div className="fixed w-screen h-screen -z-10">
-        <Image
-          src={clouds}
-          alt="Picture of the author"
-          width={1920}
-          height={1280}
-          className="w-full h-full object-cover"
-        />
-      </div>
       <div className="w-screen h-screen flex justify-center items-center">
         <div className="">
+          <h1>--- Under construction ---</h1>
           <h1>Registration</h1>
           <form ref={form} className="w-full h-full flex flex-col ">
             <label htmlFor="email">E-mail</label>

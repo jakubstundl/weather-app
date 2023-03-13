@@ -4,7 +4,11 @@ import { userLoginData } from "../interfaces/userData";
 import { isInput, isForm } from "@/predicates";
 import { useRouter } from "next/router";
 
-export default function Login() {
+export default function Login({
+  setUserActionVisible,
+}: {
+  setUserActionVisible: (boolean: boolean) => void;
+}) {
   const form = useRef<HTMLFormElement>(null);
   const cookies = parseCookies();
   const router = useRouter();
@@ -43,15 +47,23 @@ export default function Login() {
   };
   return (
     <>
-      <form ref={form}>
-        <label htmlFor="email">Email</label>
+    <div>
+      <form ref={form} className="flex flex-col">
+        <label htmlFor="email">Email:</label>
         <input type="text" id="email" />
-        <label htmlFor="password">Password</label>
-        <input type="text" id="password" />
-        <button type="button" onClick={sendForm}>
+        <label htmlFor="password">Password:</label>
+        <input type="password" id="password" />
+        <button
+          type="button"
+          onClick={() => {
+            sendForm();
+            setUserActionVisible(false);
+          }}
+        >
           Send
         </button>
       </form>
+      </div>
     </>
   );
 }

@@ -23,8 +23,6 @@ export const login = async (
   return null;
 };
 
-export const tokenCheck = (token: string) => {};
-
 export const hashPassword = (password: string): string => {
   return crypto.createHash("sha512").update(password).digest("hex");
 };
@@ -35,7 +33,6 @@ export const accessToken = async (
   userId: string
 ): Promise<string | null> => {
   const secret = process.env.JWT_ACCESS_SECRET;
-
   if (typeof secret == "string") {
     return jwt.sign({ email: email, cities: city, userId: userId }, secret, {
       expiresIn: "30d",
@@ -48,31 +45,38 @@ export const accessToken = async (
 export const getCitiesFromToken = (token: string): string[] | null => {
   const secret = process.env.JWT_ACCESS_SECRET;
   if (typeof secret === "string") {
-    const t = jwt.verify(token, secret) as { cities: string[] };
-    console.log(t.cities);
-
-    return t.cities;
+    try {
+      const t = jwt.verify(token, secret) as { cities: string[] };
+      return t.cities;
+    } catch (error) {
+      return null;
+    }
   }
-
   return null;
 };
 
 export const getEmailFromToken = (token: string): string | null => {
   const secret = process.env.JWT_ACCESS_SECRET;
   if (typeof secret === "string") {
-    const t = jwt.verify(token, secret) as { email: string };
-    return t.email;
+    try {
+      const t = jwt.verify(token, secret) as { email: string };
+      return t.email;
+    } catch (error) {
+      return null;
+    }
   }
-
   return null;
 };
 
 export const getUserIdFromToken = (token: string): string | null => {
   const secret = process.env.JWT_ACCESS_SECRET;
   if (typeof secret === "string") {
-    const t = jwt.verify(token, secret) as { userId: string };
-    return t.userId;
+    try {
+      const t = jwt.verify(token, secret) as { userId: string };
+      return t.userId;
+    } catch (error) {
+      return null;
+    }
   }
-
   return null;
 };

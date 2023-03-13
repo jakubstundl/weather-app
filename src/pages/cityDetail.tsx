@@ -4,7 +4,10 @@ import { City_db } from "@prisma/client";
 import CityWeatherSmallIcon from "@/components/cityWeatherSmallIcon";
 
 export default function CityDetail({ data }: { data: openWeatherData }) {
-  return <CityWeatherSmallIcon data={data}/>
+  return <>
+  <h1>This page is under construction</h1>
+  <CityWeatherSmallIcon data={data}/>
+  </>
   
 }
 

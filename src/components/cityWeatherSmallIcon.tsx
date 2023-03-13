@@ -14,7 +14,7 @@ export default function CityWeatherSmallIcon({
   const [timeString, setTimeString] = useState("No time");
   const src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
   const picSize = 25;
-  const myLoader = ({ src }: { src: string }) => {
+  const myLoader = ({ src, width }: { src: string, width:number }) => {
     return src;
   };
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function CityWeatherSmallIcon({
       </p>
       <p>{`${data.sys.countryLong}, ${timeString} `}</p>
       <div className="flex">
-        <Image loader={myLoader} src={src} alt="" width={100} height={100} />
+        <Image loader={myLoader} src={src} alt="" width={100} height={100} style={{objectFit:"cover"}} />
         <div>
           <p className="text-xl">
             {data.weather[0].main.toLowerCase() ==
@@ -41,7 +41,7 @@ export default function CityWeatherSmallIcon({
               : `${data.weather[0].main}, ${data.weather[0].description}`}
           </p>
 
-          <div className="flex">
+          <div className="flex m-2">
             <Image
               src={temperatureMeter}
               width={picSize}
@@ -52,7 +52,7 @@ export default function CityWeatherSmallIcon({
             {data.main.feels_like.toFixed(1)}°C)
           </div>
 
-          <div className="flex">
+          <div className="flex m-2">
             <Image
               src={wind}
               width={picSize}
@@ -62,7 +62,7 @@ export default function CityWeatherSmallIcon({
             ></Image>
             &nbsp;&nbsp; {data.wind.speed}m/s
           </div>
-          <div className="flex">
+          <div className="flex m-2">
             <Image
               src={pressure}
               width={picSize}

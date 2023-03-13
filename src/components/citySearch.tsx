@@ -5,6 +5,7 @@ export default function CitySearch() {
   const [cities, setCities] = useState<string[]>([]);
   const router = useRouter();
   const ref = useRef<any>(null);
+  const datalist = useRef<HTMLDataListElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const handleClickOutside = (ev: any) => {
     const element: HTMLInputElement = ev.target;
@@ -33,13 +34,13 @@ export default function CitySearch() {
     };
   }, []);
   return (
-    <div className="flex w-screen justify-center absolute">
+    <div className="flex w-screen justify-center relative mb-[50px] text-[2em]">
       <div className="flex">
-        <label htmlFor="citySearch">Search:</label>
-        <div>
+        <label htmlFor="citySearch">Search: &nbsp;</label>
+        <div className="min-w-[500px] w-[50vw]">
           <input
-            className="bg-transparent border-4 w-[500px]"
-            type="text"
+            className="bg-transparent outline-none border-4 border-b-0 w-full h-[4vh] border-orange-500"
+            list="cities"
             id="citySearch"
             autoComplete="off"
             ref={input}
@@ -55,11 +56,13 @@ export default function CitySearch() {
               }
             }}
           />
-          <div ref={ref} className="border-2 border-blue-800">
+          <div
+            ref={ref}
+            className="border-4 border-t-0  absolute border-orange-500 min-w-[500px] w-[50vw]"
+          >
             {cities.map((city, index) => (
               <div
-                className="relative bg-transparent backdrop-blur-sm hover:backdrop-blur-3xl hover:border-2	"
-               
+                className="w-full bg-transparent backdrop-blur-sm hover:backdrop-blur-3xl hover:border-2 border-orange-500	"
                 onClick={(e: React.MouseEvent<HTMLElement>) => {
                   const div: HTMLDivElement = e.target as HTMLDivElement;
                   router.push(`/cityDetail?city=${div.innerHTML}`);
