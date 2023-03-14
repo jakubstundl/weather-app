@@ -93,7 +93,7 @@ export default function Register() {
                     type="email"
                     required
                     id="email"
-                    className="text-xl bg-transparent border-2 mb-1 rounded-[5px] border-orange-500 focus:-translate-y-1 focus:outline-orange-500 focus:scale-105 focus:bg-blue-500 duration-300"
+                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-orange-500 focus:-translate-y-1 focus:outline-orange-500 focus:scale-105 focus:bg-blue-500 duration-300"
                   />
                 </div>
               </div>
@@ -105,7 +105,7 @@ export default function Register() {
                   <input
                     type="password"
                     id="password1"
-                    className="text-xl bg-transparent border-2 mb-1 rounded-[5px] border-orange-500 focus:-translate-y-1 focus:outline-orange-500 focus:scale-105 focus:bg-blue-500 duration-300"
+                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-orange-500 focus:-translate-y-1 focus:outline-orange-500 focus:scale-105 focus:bg-blue-500 duration-300"
                   />
                 </div>
               </div>
@@ -117,7 +117,7 @@ export default function Register() {
                   <input
                     type="password"
                     id="password2"
-                    className="text-xl bg-transparent border-2 mb-1 rounded-[5px] border-orange-500 focus:-translate-y-1 focus:outline-orange-500 focus:scale-105 focus:bg-blue-500 duration-300"
+                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-orange-500 focus:-translate-y-1 focus:outline-orange-500 focus:scale-105 focus:bg-blue-500 duration-300"
                     onKeyDown={(ev: React.KeyboardEvent<HTMLElement>) => {
                       if (ev.key == "Enter") {
                         sendForm();
@@ -131,7 +131,7 @@ export default function Register() {
                 <button
                   type="button"
                   onClick={sendForm}
-                  className="w-[50%] text-xl border-2 m-2 mb-4 rounded-[5px] border-orange-500 hover:-translate-y-1 focus:scale-105 hover:bg-blue-500 duration-300"
+                  className="w-[50%] text-xl border-2 m-2 mt-1 mb-4 rounded-[5px] border-orange-500 hover:-translate-y-1 focus:scale-105 hover:bg-blue-500 duration-300"
                 >
                   Send
                 </button>
