@@ -1,17 +1,17 @@
 import Head from "next/head";
 import nookies from "nookies";
-import { getCitiesFromToken, getEmailFromToken } from "@/functions/auth";
-import Image from "next/image";
+import { getEmailFromToken, getUserIdFromToken } from "@/functions/auth";
 import { Inter } from "next/font/google";
-import NoUserCities from "@/components/noUserCities";
 import UserCities from "@/components/userCities";
 import { getRandomCitiesData } from "@/functions/randomCitiesData";
 import { cityForFE, openWeatherData } from "@/interfaces/fetchedData";
 import CitySearch from "@/components/citySearch";
+import { prisma } from "@/functions/prisma";
+import { City } from "@prisma/client";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home({ data, user }: { data: any; user: string }) {
+export default function Home({ data, user }: { data: openWeatherData[]; user: string|null }) {
   console.log(data[0]);
 
   return (
@@ -23,11 +23,10 @@ export default function Home({ data, user }: { data: any; user: string }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="w-screen">
+      <div>
         <CitySearch />
-
-        {user ? <UserCities user={user} /> : <NoUserCities data={data} />}
-      </main>
+        <UserCities data={data} user={user} />
+      </div>
     </>
   );
 }
@@ -35,17 +34,37 @@ export default function Home({ data, user }: { data: any; user: string }) {
 export async function getServerSideProps(ctx: any) {
   // Parse
   const cookies = nookies.get(ctx);
-  let cities: cityForFE[] | null;
+  let cities: cityForFE[] | null | City[];
   let user: string | null;
   let data: openWeatherData[] = [];
   try {
-    //cities = getCitiesFromToken(cookies.accessToken);
-    user = getEmailFromToken(cookies.accessToken);
+    user = getUserIdFromToken(cookies.accessToken);
   } catch (error) {
     cities = null;
     user = null;
   }
   if (user) {
+    cities = await prisma.city.findMany({ where: { userId: user } });
+    for (let i = 0; i < cities.length; i++) {
+      data.push(
+        await (
+          await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${cities[i].name}&units=metric&APPID=84fe0ab7b8e1da2d85374181442b3639`
+          )
+        ).json()
+      );
+      const country = await prisma.city_db.findMany({
+        where: {
+          owm_city_name: cities[i].name?.split(",")[0],
+          country_short: cities[i].name?.split(",")[1],
+        },
+      });
+      if (country[0].country_long) {
+        data[i].sys = { ...data[i].sys, countryLong: country[0].country_long };
+        data[i].name = country[0].owm_city_name || cities[i].name?.split(",")[0] || ""
+
+      }
+    }
   } else {
     cities = await getRandomCitiesData(12);
     for (let i = 0; i < cities.length; i++) {
@@ -57,6 +76,7 @@ export async function getServerSideProps(ctx: any) {
         ).json()
       );
       data[i].sys = { ...data[i].sys, countryLong: cities[i].country_long };
+      data[i].name = cities[i].city.split(",")[0]
     }
   }
 

@@ -15,6 +15,10 @@ export const isSecret = (secret: any): secret is Secret => {
   }
   return false;
 };
- export const isUser = (user:any): user is User =>{
-  return typeof user.email=="string";
- }
+export const isUser = (user: any): user is User => {
+  if (user && user.email) {
+    return typeof user.email == "string";
+  } else {
+    return false;
+  }
+};

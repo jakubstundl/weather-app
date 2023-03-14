@@ -11,14 +11,10 @@ export const login = async (
   const user: User | null = await prisma.user.findUnique({
     where: { email: email },
   });
+  console.log(isUser(user));
+  
   if (isUser(user) && hashPassword(password) === user.password) {
-    const cities: City[] | null = await prisma.city.findMany({
-      where: { userId: user.id },
-    });
-    const city = cities.map((city: City) => {
-      return city.name;
-    });
-    return await accessToken(email, city, user.id);
+    return await accessToken(email, user.id);
   }
   return null;
 };
@@ -29,30 +25,16 @@ export const hashPassword = (password: string): string => {
 
 export const accessToken = async (
   email: string,
-  city: (string | null)[] | null,
   userId: string
 ): Promise<string | null> => {
   const secret = process.env.JWT_ACCESS_SECRET;
   if (typeof secret == "string") {
-    return jwt.sign({ email: email, cities: city, userId: userId }, secret, {
-      expiresIn: "30d",
+    return jwt.sign({ email: email, userId: userId }, secret, {
+      expiresIn: "8d",
     });
   } else {
     return null;
   }
-};
-
-export const getCitiesFromToken = (token: string): string[] | null => {
-  const secret = process.env.JWT_ACCESS_SECRET;
-  if (typeof secret === "string") {
-    try {
-      const t = jwt.verify(token, secret) as { cities: string[] };
-      return t.cities;
-    } catch (error) {
-      return null;
-    }
-  }
-  return null;
 };
 
 export const getEmailFromToken = (token: string): string | null => {

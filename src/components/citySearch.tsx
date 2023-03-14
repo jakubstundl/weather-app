@@ -58,11 +58,11 @@ export default function CitySearch() {
           />
           <div
             ref={ref}
-            className="border-4 border-t-0  absolute border-orange-500 min-w-[500px] w-[50vw]"
+            className="border-4 border-t-0 absolute border-orange-500 min-w-[500px] w-[50vw]"
           >
             {cities.map((city, index) => (
               <div
-                className="w-full bg-transparent backdrop-blur-sm hover:backdrop-blur-3xl hover:border-2 border-orange-500	"
+                className="w-full bg-transparent backdrop-blur-sm hover:backdrop-blur-3xl hover:border-2 border-orange-500"
                 onClick={(e: React.MouseEvent<HTMLElement>) => {
                   const div: HTMLDivElement = e.target as HTMLDivElement;
                   router.push(`/cityDetail?city=${div.innerHTML}`);

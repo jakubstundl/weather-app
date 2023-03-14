@@ -12,18 +12,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: req.body.email,
-    },
-  });
-
+  
+  console.log(req.body.email, req.body.password)
   const token = await login(req.body.email, req.body.password);
   if (token) {
     res.status(200).json({ message: "User has been signed in.", token: token });
   } else {
     res
-      .status(500)
+      .status(400)
       .json({ message: "User has not been signed in.", token: null });
-  }
+  } 
 }

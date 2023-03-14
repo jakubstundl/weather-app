@@ -22,21 +22,32 @@ export default async function handler(
     }
   }
 
-  if (req.method == "POST" && req.cookies.accessToken && req.body.name) {
+  if (req.method == "POST" && req.cookies.accessToken && req.body.city) {
+    console.log("here");
+
     const userId = getUserIdFromToken(req.cookies.accessToken);
     if (userId) {
-      await prisma.city.create({
-        data: { userId: userId, name: req.body.name },
-      });
-      res.status(200).json({ message: "City has been added." });
+try {
+  await prisma.city.create({
+    data: { userId: userId, name: req.body.city },
+  });
+  res.status(200).json({ message: "City has been added." });
+} catch (error) {
+  res.status(400).json({ message: "City is already in your list." });
+
+}
+      
+
     }
   }
 
-  if (req.method == "DELETE" && req.cookies.accessToken && req.body.name) {
+  if (req.method == "DELETE" && req.cookies.accessToken && req.body.city) {
+    console.log("here");
+    
     const userId = getUserIdFromToken(req.cookies.accessToken);
     if (userId) {
       await prisma.city.deleteMany({
-        where: { userId: userId, name: req.body.name },
+        where: { userId: userId, name: req.body.city },
       });
       res.status(200).json({ message: "City has been deleted." });
     }

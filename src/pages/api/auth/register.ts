@@ -12,10 +12,12 @@ export default async function handler(
 ) {
   let userCreated:boolean = false;
   let message: string = "Default";
+  console.log(req.body.email);
+  
   try {
     await prisma.user.create({
       data: {
-        email: req.body.name,
+        email: req.body.email,
         password: hashPassword(req.body.password)
       },
     });
