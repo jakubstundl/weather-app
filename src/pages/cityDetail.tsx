@@ -38,7 +38,7 @@ export default function CityDetail({
   const saveCity = () => {
     const cityToSave = router.query.city;
     fetch("api/cities", {
-      method: "POST", // or 'PUT'
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -57,7 +57,9 @@ export default function CityDetail({
   return (
     <>
       <h1>This page is under construction</h1>
+      <div className="w-full flex justify-center">
       <CityWeatherLargeIcon data={data} user={null} />
+      </div>
       {inTheList == null ? (
         <></>
       ) : inTheList ? (
@@ -66,7 +68,7 @@ export default function CityDetail({
         <button onClick={saveCity}>Add the city to your cities</button>
       )}
       <div className="w-screen flex justify-center">
-        <div className="min-w-[1000px] max-w-[1600px]">
+        <div className="min-w-[1000px] max-w-[1600px] w-full">
           <div className="flex justify-between m-5">
             {Object.entries(weatherLayer).map((layer: any, index: number) => (
               <button

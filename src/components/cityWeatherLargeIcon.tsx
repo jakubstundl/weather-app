@@ -1,10 +1,6 @@
 import { openWeatherData } from "@/interfaces/fetchedData";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import wind from "../../public/wind-arrow.png";
-import temperatureMeter from "../../public/thermometer.png";
-import pressure from "../../public/pressure-indicator.png";
-import { windRotate } from "@/functions/windRotate";
 import { useRouter } from "next/router";
 
 export default function CityWeatherLargeIcon({
@@ -22,23 +18,7 @@ export default function CityWeatherLargeIcon({
   const myLoader = ({ src, width }: { src: string; width: number }) => {
     return src;
   };
-  const deleteCity = () => {
-    fetch("api/cities", {
-      method: "DELETE", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ city: cityNameForDb }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        router.reload()
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
+
   useEffect(() => {
     let date: Date = new Date();
     date.setSeconds(date.getSeconds() + data.timezone);
@@ -47,70 +27,35 @@ export default function CityWeatherLargeIcon({
     );
   }, [data.timezone, timeString]);
   return (
-    <div className="box-content bg-transparent border-4 rounded-xl border-orange-600  p-3 m-10 w-[400px]">
-      {user?<div className="w-full bg-white h-0 flex justify-end"><button 
-          onClick={deleteCity}
-          className="right-1 top-0"
-        >
-          X
-        </button></div>:<></>
-      }
-      <p className="text-center">
-        <span
-          onClick={() => {
-            router.push(`/cityDetail?city=${data.name},${data.sys.country}`);
-          }}
-          className="text-orange-600 text-3xl cursor-pointer"
-        >{`${data.name}`}</span>
-      </p>
-      <p>{`${data.sys.countryLong}, ${timeString} `}</p>
+    <div className="box-content bg-transparent">
+      <p>{`${data.name}, ${data.sys.countryLong}, ${timeString} `}</p>
       <div className="flex">
-        <Image
+        {/* <Image
           loader={myLoader}
           src={src}
           alt=""
           width={100}
           height={100}
           style={{ objectFit: "cover" }}
-        />
+        /> */}
         <div>
-          <p className="text-xl">
-            {data.weather[0].main.toLowerCase() ==
-            data.weather[0].description.toLowerCase()
-              ? data.weather[0].main
-              : `${data.weather[0].main}, ${data.weather[0].description}`}
-          </p>
-
-          <div className="flex m-2">
-            <Image
-              src={temperatureMeter}
-              width={picSize}
-              height={picSize}
-              alt="Wind direction"
-            ></Image>
-            &nbsp;&nbsp; {data.main.temp.toFixed(1)}°C (Feels like:{" "}
-            {data.main.feels_like.toFixed(1)}°C)
-          </div>
-
-          <div className="flex m-2">
-            <Image
-              src={wind}
-              width={picSize}
-              height={picSize}
-              alt="Wind direction"
-              className={windRotate[`${data.wind.deg}`]}
-            ></Image>
-            &nbsp;&nbsp; {data.wind.speed}m/s
-          </div>
-          <div className="flex m-2">
-            <Image
-              src={pressure}
-              width={picSize}
-              height={picSize}
-              alt="Wind direction"
-            ></Image>
-            &nbsp;&nbsp; {data.main.pressure}hPa
-          </div>
+          <p>Weather: {data.weather[0].main}</p>
+          <p>Weather desc: {data.weather[0].description}</p>
+          <p>Temperature: {data.main.temp}</p>
+          <p>feels like: {data.main.feels_like}</p>
+          <p>Wind speed: {data.wind.speed}</p>
+          <p>Wind direction: {data.wind.deg}</p>
+          <p>Pressure:{data.main.pressure}hPa</p>
+          <p>Longitude: {data.coord.lon}</p>
+          <p>Latitude: {data.coord.lat}</p>
+          <p>Temp min: {data.main.temp_min}</p>
+          <p>Temp max: {data.main.temp_max}</p>
+          <p>Humidity: {data.main.humidity}</p>
+          <p>Visibility: {data.visibility}</p>
+          <p>Clouds: {data.clouds.all}</p>
+          <p>dt: {data.dt}</p>
+          <p>Sunrise: {data.sys.sunrise}</p>
+          <p>Sunset: {data.sys.sunset}</p>
         </div>
       </div>
     </div>

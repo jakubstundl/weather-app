@@ -1,5 +1,3 @@
-import { ReactElement, JSXElementConstructor, ReactFragment } from "react";
-
 export default function Legend({ layer }: { layer: string }) {
   const temperature = [
     { value: 30, rgba: [252, 128, 20, 1] },
@@ -98,7 +96,7 @@ export default function Legend({ layer }: { layer: string }) {
   }
 
   return (
-    <div className="bg-white flex justify-between">
+    <div className="flex justify-between">
       {legend?.map((l: any, i: number) => (
         <div key={i} className="w-full">
           <div
