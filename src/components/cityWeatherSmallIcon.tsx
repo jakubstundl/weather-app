@@ -47,7 +47,7 @@ export default function CityWeatherSmallIcon({
     );
   }, [data.timezone, timeString]);
   return (
-    <div className="box-content bg-transparent border-4 rounded-xl border-orange-600  p-3 m-10 w-[400px]">
+    <div className="box-content bg-transparent border-4 rounded-xl border-[#3CB371]  p-3 m-10 w-[400px]">
       {user?<div className="w-full bg-white h-0 flex justify-end"><button 
           onClick={deleteCity}
           className="right-1 top-0"
@@ -60,7 +60,7 @@ export default function CityWeatherSmallIcon({
           onClick={() => {
             router.push(`/cityDetail?city=${data.name},${data.sys.country}`);
           }}
-          className="text-orange-600 text-3xl cursor-pointer"
+          className="text-[#333333] text-3xl cursor-pointer"
         >{`${data.name}`}</span>
       </p>
       <p>{`${data.sys.countryLong}, ${timeString} `}</p>

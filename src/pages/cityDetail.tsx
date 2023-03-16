@@ -1,7 +1,11 @@
-import { openWeatherData } from "@/interfaces/fetchedData";
+import {
+  CityDetailData,
+  HourlyForecast,
+  openWeatherData,
+} from "@/interfaces/fetchedData";
 import { prisma } from "@/functions/prisma";
 import { City_db } from "@prisma/client";
-import CityWeatherLargeIcon from "@/components/cityWeatherLargeIcon";
+import CityWeather from "@/components/cityWeather";
 import { useRouter } from "next/router";
 import { getUserIdFromToken } from "@/functions/auth";
 import nookies from "nookies";
@@ -12,12 +16,13 @@ import Legend from "@/components/Map/legend";
 export default function CityDetail({
   data,
   inTheList,
+  forecast,
 }: {
-  data: openWeatherData;
+  data: CityDetailData;
   inTheList: boolean | null;
+  forecast: HourlyForecast;
 }) {
   const router = useRouter();
-  console.log(inTheList == undefined || false);
   const weatherLayer = {
     Clouds: "clouds_new",
     Rain: "precipitation_new",
@@ -32,9 +37,9 @@ export default function CityDetail({
     })
   );
   const markedButtonTW =
-    "border-[4px] border-orange-500 rounded-xl p-2 w-[18%] bg-orange-500 hover:bg-orange-800";
+    "border-[4px] border-[#3CB371] rounded-xl p-2 w-[18%] bg-[#3CB371]";
   const buttonTW =
-    "border-[4px] border-orange-500 rounded-xl p-2 w-[18%] hover:bg-orange-800";
+    "border-[4px] border-[#3CB371] rounded-xl p-2 w-[18%] hover:bg-[#3CB371]";
   const saveCity = () => {
     const cityToSave = router.query.city;
     fetch("api/cities", {
@@ -58,7 +63,7 @@ export default function CityDetail({
     <>
       <h1>This page is under construction</h1>
       <div className="w-full flex justify-center">
-      <CityWeatherLargeIcon data={data} user={null} />
+        <CityWeather data={data} forecast={forecast} />
       </div>
       {inTheList == null ? (
         <></>
@@ -87,10 +92,7 @@ export default function CityDetail({
               </button>
             ))}
           </div>
-          <CityWeatherMap
-            coords={{ x: data.coord.lat, y: data.coord.lon }}
-            layer={layer}
-          />
+          <CityWeatherMap coords={{ x: data.lat, y: data.lon }} layer={layer} />
           <Legend layer={layer} />
         </div>
       </div>
@@ -101,15 +103,12 @@ export default function CityDetail({
 export async function getServerSideProps(context: any) {
   const city = context.query.city;
   const cookies = nookies.get(context);
-
   let inTheList = null;
-
   const userId = getUserIdFromToken(cookies.accessToken);
   if (userId) {
     const cityList = (
       await prisma.city.findMany({ where: { userId: userId } })
     ).map((city) => city.name);
-
     if (cityList.includes(city)) {
       inTheList = true;
     } else {
@@ -117,22 +116,26 @@ export async function getServerSideProps(context: any) {
     }
   }
 
-  const data: openWeatherData = await (
-    await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=84fe0ab7b8e1da2d85374181442b3639`
-    )
-  ).json();
-  const state: City_db[] = await prisma.city_db.findMany({
+  const cityData: City_db[] = await prisma.city_db.findMany({
     where: {
       owm_city_name: city.split(",")[0],
       country_short: city.split(",")[1],
     },
     take: 1,
   });
-  let result: string = state[0].country_long || "";
-  data.sys = { ...data.sys, countryLong: result };
-  data.name = city.split(",")[0];
+  let country: string = cityData[0].country_long || "";
+  const data: CityDetailData = {
+    countryLong: country,
+    lat: cityData[0].owm_latitude || 0,
+    lon: cityData[0].owm_longitude || 0,
+  };
+  const forecast: HourlyForecast = await (
+    await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&appid=84fe0ab7b8e1da2d85374181442b3639`
+    )
+  ).json();
+
   return {
-    props: { data, inTheList }, // will be passed to the page component as props
+    props: { data, inTheList, forecast },
   };
 }

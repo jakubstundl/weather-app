@@ -32,7 +32,7 @@ export default function Navbar() {
   });
   return (
     <>
-      <div className="fixed p-[5px] right-2 top-2 z-10 backdrop-blur-sm  border-4 rounded-[5px] border-orange-500">
+      <div className="fixed p-[5px] right-2 top-2 z-10 backdrop-blur-sm  border-4 rounded-[5px] border-[#3CB371]">
         <div className="flex w-full justify-center">
           <button className="hover:invert-0"
             onClick={() => {
@@ -50,7 +50,7 @@ export default function Navbar() {
           ) : (
             <div>
               <Login setUserActionVisible={setUserActionVisible} />
-              <button className="w-full border-2 mb-1 rounded-[5px] border-orange-500 hover:-translate-y-1 hover:scale-105 hover:bg-blue-500 duration-300"
+              <button className="w-full border-2 mb-1 rounded-[5px] border-[#3CB371] hover:-translate-y-1 hover:scale-105 hover:bg-blue-500 duration-300"
                 onClick={() => {
                   setUserActionVisible(false);
                   router.push("/register");
@@ -63,7 +63,7 @@ export default function Navbar() {
         </div>
       </div>
       <div className="flex justify-center ">
-      <Link href={"/"} className="text-center text-orange-400 w-screen text-[100px]">
+      <Link href={"/"} className="text-center text-[#333333] w-screen text-[100px]">
         Weather-App
       </Link>
       </div>

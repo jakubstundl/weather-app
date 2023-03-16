@@ -11,6 +11,7 @@ module.exports = {
   theme: {
     extend: {fontFamily: {
       VarelaRound: ['Varela Round', "sans-serif"],
+      Roboto:['Roboto Serif', "serif"]
      },},
   },
   plugins: [],

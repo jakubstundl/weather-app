@@ -39,7 +39,7 @@ export default function CitySearch() {
         <label htmlFor="citySearch">Search: &nbsp;</label>
         <div className="min-w-[500px] w-[50vw]">
           <input
-            className="bg-transparent outline-none border-4 border-b-0 w-full h-[4vh] border-orange-500"
+            className="bg-transparent outline-none border-4 border-b-0 w-full h-[4vh] border-[#3CB371]"
             list="cities"
             id="citySearch"
             autoComplete="off"
@@ -58,7 +58,7 @@ export default function CitySearch() {
           />
           <div
             ref={ref}
-            className="border-4 border-t-0 absolute border-orange-500 min-w-[500px] w-[50vw]"
+            className="border-4 border-t-0 absolute border-[#3CB371] min-w-[500px] w-[50vw]"
           >
             {cities.map((city, index) => (
               <div

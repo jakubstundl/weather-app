@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body  className="font-VarelaRound overflow-x-hidden" >
+      <body  className="font-Roboto text-[#333333] overflow-x-hidden" >
         <Main />
         <NextScript />
       </body>

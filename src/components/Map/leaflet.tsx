@@ -1,9 +1,4 @@
-import Head from "next/head";
-
-import Map from "@/components/Map";
-
-import styles from "@/styles/Home.module.css";
-import { useState } from "react";
+import Map from "@/components/Map/Map";
 
 export default function CityWeatherMap({
   coords,
