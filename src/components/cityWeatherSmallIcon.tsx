@@ -47,7 +47,7 @@ export default function CityWeatherSmallIcon({
     );
   }, [data.timezone, timeString]);
   return (
-    <div className="box-content bg-transparent border-4 rounded-xl border-[#3CB371]  p-3 m-10 w-[400px]">
+    <div className="box-content bg-transparent border-[6px] rounded-xl border-[#3CB371]  p-3 m-10 w-[400px]">
       {user?<div className="w-full bg-white h-0 flex justify-end"><button 
           onClick={deleteCity}
           className="right-1 top-0"

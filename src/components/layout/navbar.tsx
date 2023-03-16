@@ -1,4 +1,4 @@
-import icon from "../../../public/userIcon.png";
+import icon from "../../../public/userIcon1.png";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Login from "../login";
@@ -32,7 +32,7 @@ export default function Navbar() {
   });
   return (
     <>
-      <div className="fixed p-[5px] right-2 top-2 z-10 backdrop-blur-sm  border-4 rounded-[5px] border-[#3CB371]">
+      <div className="fixed p-[5px] right-2 top-2 z-10 backdrop-blur-sm  border-[6px] rounded-[5px] border-[#3CB371]">
         <div className="flex w-full justify-center">
           <button className="hover:invert-0"
             onClick={() => {
@@ -40,7 +40,7 @@ export default function Navbar() {
             }}
             
           >
-            <Image  src={icon} width={50} height={50} alt="User-icon"></Image>
+            <Image  src={icon} width={50} height={50} alt="User-icon" className="hue-rotate-[205deg]"/>
           </button>
         </div>
         {user ? user : `No user logged in`}

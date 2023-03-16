@@ -10,8 +10,7 @@ export default function Background() {
           alt="Picture of the author"
           width={1920}
           height={1280}
-          className="w-full h-full object-cover "
-          style={{ filter: "hue-rotate(20deg)",opacity:0.4 }}
+          className="w-full h-full object-cover hue-rotate-[20deg] opacity-40"
         />
       </div>
     </>

@@ -1,14 +1,12 @@
 import { useRef } from "react";
 import { userRegistrationData } from "../interfaces/userData";
 import { isInput, isForm } from "@/predicates";
-import { useRouter } from "next/router";
 import validator from "validator";
 
 export default function Register() {
   const form = useRef<HTMLFormElement>(null);
   const formWrapper = useRef<HTMLDivElement>(null);
   const errorField = useRef<HTMLDivElement>(null);
-  const router = useRouter();
   const minPWLength = 4;
 
   const sendForm = () => {
@@ -79,7 +77,7 @@ export default function Register() {
   return (
     <>
       <div className="w-screen flex justify-center ">
-        <div className="w-[50vw] border-4 border-orange-500 rounded-md">
+        <div className="w-[50vw] border-4 border-[#3CB371] rounded-md">
           <div ref={formWrapper} className="">
             {/* <h1>--- Under construction ---</h1> */}
             <h1 className="text-center m-5 text-2xl">Registration</h1>
@@ -93,7 +91,7 @@ export default function Register() {
                     type="email"
                     required
                     id="email"
-                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-orange-500 focus:-translate-y-1 focus:outline-orange-500 focus:scale-105 focus:bg-blue-500 duration-300"
+                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-[#3CB371] focus:-translate-y-1 focus:outline-[#3CB371] focus:scale-105 focus:bg-[#3CB371] duration-300"
                   />
                 </div>
               </div>
@@ -105,7 +103,7 @@ export default function Register() {
                   <input
                     type="password"
                     id="password1"
-                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-orange-500 focus:-translate-y-1 focus:outline-orange-500 focus:scale-105 focus:bg-blue-500 duration-300"
+                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-[#3CB371] focus:-translate-y-1 focus:outline-[#3CB371] focus:scale-105 focus:bg-[#3CB371] duration-300"
                   />
                 </div>
               </div>
@@ -117,7 +115,7 @@ export default function Register() {
                   <input
                     type="password"
                     id="password2"
-                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-orange-500 focus:-translate-y-1 focus:outline-orange-500 focus:scale-105 focus:bg-blue-500 duration-300"
+                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-[#3CB371] focus:-translate-y-1 focus:outline-[#3CB371] focus:scale-105 focus:bg-[#3CB371] duration-300"
                     onKeyDown={(ev: React.KeyboardEvent<HTMLElement>) => {
                       if (ev.key == "Enter") {
                         sendForm();
@@ -131,7 +129,7 @@ export default function Register() {
                 <button
                   type="button"
                   onClick={sendForm}
-                  className="w-[50%] text-xl border-2 m-2 mt-1 mb-4 rounded-[5px] border-orange-500 hover:-translate-y-1 focus:scale-105 hover:bg-blue-500 duration-300"
+                  className="w-[50%] text-xl border-2 m-2 mt-1 mb-4 rounded-[5px] border-[#3CB371] hover:-translate-y-1 focus:scale-105 hover:bg-[#3CB371] duration-300"
                 >
                   Send
                 </button>
