@@ -131,7 +131,7 @@ export async function getServerSideProps(context: any) {
   };
   const forecast: HourlyForecast = await (
     await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&appid=84fe0ab7b8e1da2d85374181442b3639`
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&appid=84fe0ab7b8e1da2d85374181442b3639`
     )
   ).json();
 

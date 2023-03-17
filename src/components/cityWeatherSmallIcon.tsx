@@ -15,7 +15,7 @@ export default function CityWeatherSmallIcon({
   user: string | null;
 }) {
   const [timeString, setTimeString] = useState("No time");
-  const src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  const src = `/weatherIcons/${data.weather[0].icon}.png`;
   const picSize = 25;
   const router = useRouter();
   const cityNameForDb = `${data.name},${data.sys.country}`;
@@ -33,7 +33,7 @@ export default function CityWeatherSmallIcon({
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        router.reload()
+        router.reload();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -47,14 +47,16 @@ export default function CityWeatherSmallIcon({
     );
   }, [data.timezone, timeString]);
   return (
-    <div className="box-content bg-transparent border-[6px] rounded-xl border-[#3CB371]  p-3 m-10 w-[400px]">
-      {user?<div className="w-full bg-white h-0 flex justify-end"><button 
-          onClick={deleteCity}
-          className="right-1 top-0"
-        >
-          X
-        </button></div>:<></>
-      }
+    <div className="box-content bg-transparent border-[6px] rounded-xl border-[#3CB371]  p-3 pl-0  m-10 w-[500px]">
+      {user ? (
+        <div className="w-full bg-white h-0 flex justify-end">
+          <button onClick={deleteCity} className="right-1 top-0">
+            X
+          </button>
+        </div>
+      ) : (
+        <></>
+      )}
       <p className="text-center">
         <span
           onClick={() => {
@@ -63,25 +65,27 @@ export default function CityWeatherSmallIcon({
           className="text-[#333333] text-3xl cursor-pointer"
         >{`${data.name}`}</span>
       </p>
-      <p>{`${data.sys.countryLong}, ${timeString} `}</p>
-      <div className="flex">
-        <Image
-          loader={myLoader}
-          src={src}
-          alt=""
-          width={100}
-          height={100}
-          style={{ objectFit: "cover" }}
-        />
-        <div>
-          <p className="text-xl">
+      <p className="ml-2">{`${data.sys.countryLong}, ${timeString} `}</p>
+      <div className="flex w-full justify-center">
+        <div className="w-1/2 h-full flex justify-center items-center">
+          <Image
+            loader={myLoader}
+            src={src}
+            alt=""
+            width={10}
+            height={100}
+            className="object-cover w-full"
+          />
+        </div>
+        <div className="flex flex-col justify-around">
+          <p className="text-xl whitespace-nowrap">
             {data.weather[0].main.toLowerCase() ==
             data.weather[0].description.toLowerCase()
               ? data.weather[0].main
               : `${data.weather[0].main}, ${data.weather[0].description}`}
           </p>
 
-          <div className="flex m-2">
+          <div className="flex m-2 whitespace-nowrap">
             <Image
               src={temperatureMeter}
               width={picSize}

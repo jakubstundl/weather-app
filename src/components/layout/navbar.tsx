@@ -63,7 +63,7 @@ export default function Navbar() {
         </div>
       </div>
       <div className="flex justify-center ">
-      <Link href={"/"} className="text-center text-[#333333] w-screen text-[100px]">
+      <Link href={"/"} className="text-center font-VarelaRound text-[#333333] w-screen text-[100px]">
         Weather-App
       </Link>
       </div>

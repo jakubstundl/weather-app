@@ -24,7 +24,14 @@ export default function CityWeather({
     <div>
 
       <h1>{`${forecast.city.name}, ${data.countryLong} - ${timeString}`}</h1>
-      <HourlyIcon list={forecast.list[0]}  timezone={forecast.city.timezone} />
+      <div className="flex flex-wrap">
+
+       {forecast.list.map((f:any,i:number)=>(
+        <HourlyIcon key={i} list={f}  timezone={forecast.city.timezone} />
+        ))} 
+               {/*  <HourlyIcon  list={forecast.list[0]}  timezone={forecast.city.timezone} />
+ */}
+        </div>
     </div>
     </>
   );
