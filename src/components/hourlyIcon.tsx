@@ -37,52 +37,62 @@ export default function HourlyIcon({
     );
   }, [list.dt_txt, timezone]);
   return (
-    <div className="box-content bg-transparent border-[6px] rounded-xl border-[#3CB371]  p-3 pl-0  m-10 w-[300px]">
-      <p>
+    <div className="bg-transparent flex flex-col justify-between border-[6px] rounded-xl border-[#3CB371] m-3  p-3 pl-0 max-h-[400px]">
+      <p className="text-center text-3xl">{timeString}</p>
+      <p className="text-2xl text-center whitespace-nowrap m-2">
         {dayString}
         {" - "}
         {dateString}
         {" - "}
         {monthString}
       </p>
-      <p>{timeString}</p>
-        <Image
-          loader={myLoader}
-          src={srcWeatherIcon}
-          alt=""
-          width={10}
-          height={100}
-          className="object-cover w-full"
-        />
-        <div className="flex w-full justify-between">
-      <div className="flex">
-        <Image
-          src={srcCloudiness}
-          width={25}
-          height={25}
-          alt="Wind direction"
-        ></Image>
-        {list.clouds.all}%
-      </div>
-      <div className="flex">
-        <Image
-          src={srcRain}
-          width={25}
-          height={25}
-          alt="Wind direction"
-        ></Image>
-        {list.pop * 100}%
-      </div>
-      <div className="flex">
-        <Image
-          src={srcTemp}
-          width={25}
-          height={25}
-          alt="Wind direction"
-        ></Image>
-        {list.main.temp }°C
-      </div>
-      </div>
+      <Image
+        loader={myLoader}
+        src={srcWeatherIcon}
+        alt=""
+        width={10}
+        height={100}
+        className="object-cover w-full"
+      />
+<div className="w-full flex justify-center">
+      <div className="flex w-[80%] justify-between">
+
+        <div className="flex w-[33%] items-center justify-center">
+          <div className="w-[40%]">
+            <Image
+              src={srcCloudiness}
+              width={100}
+              height={100}
+              alt="Wind direction"
+              className="object-cover"
+            ></Image>
+          </div>
+          {list.clouds.all.toFixed(0)}%
+        </div>
+        <div className="flex w-[33%] items-center justify-center">
+          <div className="w-[20%]">
+            <Image
+              src={srcRain}
+              width={100}
+              height={100}
+              alt="Wind direction"
+            ></Image>
+          </div>
+          {(list.pop * 100).toFixed(0)}%
+        </div>
+        <div className="flex w-[33%] items-center justify-center">
+          <div className="w-full">
+            <Image
+              src={srcTemp}
+              width={100}
+              height={100}
+              alt="Wind direction"
+              className="h-[25px] w-[25px]"
+            ></Image>
+          </div>
+          {list.main.temp.toFixed(1)}°C
+        </div>
+      </div></div>
     </div>
   );
 }

@@ -50,7 +50,7 @@ export default function CityWeatherSmallIcon({
     <div className="box-content bg-transparent border-[6px] rounded-xl border-[#3CB371]  p-3 pl-0  m-10 w-[500px]">
       {user ? (
         <div className="w-full bg-white h-0 flex justify-end">
-          <button onClick={deleteCity} className="right-1 top-0">
+          <button onClick={deleteCity} className="right-1 top-0 font-VarelaRound ">
             X
           </button>
         </div>

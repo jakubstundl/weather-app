@@ -12,6 +12,26 @@ export default function CityWeather({
   forecast: HourlyForecast;
 }) {
   const [timeString, setTimeString] = useState("No time");
+  const [index, setIndex] = useState(0);
+  const [offset, setOffset] = useState(0);
+
+  const indexUp = () => {
+    setIndex((prev) => {
+      return Math.min(forecast.list.length - 3, prev + 1);
+    });
+    setOffset((prev) => {
+      return Math.min(11200, prev + 100);
+    });
+  };
+  const indexDown = () => {
+    setIndex((prev) => {
+      return Math.max(0, prev - 1);
+    });
+    setOffset((prev) => {
+      return Math.max(0, prev - 100);
+    });
+  };
+
   let date: Date = new Date();
   date.setSeconds(date.getSeconds() + forecast.city.timezone);
   useEffect(() => {
@@ -21,18 +41,41 @@ export default function CityWeather({
   }, [date, forecast.city.timezone, timeString]);
   return (
     <>
-    <div>
+      <div className="min-w-[1000px] max-w-[1600px] w-full">
+        <h1 className="text-6xl text-center">{`${forecast.city.name}, ${data.countryLong} - ${timeString}`}</h1>
+        <div className="flex">
+          <button onClick={indexDown} className="text-[100px] mr-[50px]">
+            {"<"}
+          </button>
+          {/* <HourlyIcon
+            list={forecast.list[index]}
+            timezone={forecast.city.timezone}
+          />
+          <HourlyIcon
+            list={forecast.list[index + 1]}
+            timezone={forecast.city.timezone}
+          />
+          <HourlyIcon
+            list={forecast.list[index + 2]}
+            timezone={forecast.city.timezone}
+          /> */}
+          <div className="overflow-hidden relative">
+            <div className="flex relative" style={{ left: `-${offset}px` }}>
+              {forecast.list.map((timeStamp, i) => (
+                <HourlyIcon
+                  key={i}
+                  timezone={forecast.city.timezone}
+                  list={timeStamp}
+                />
+              ))}
+            </div>
+          </div>
 
-      <h1>{`${forecast.city.name}, ${data.countryLong} - ${timeString}`}</h1>
-      <div className="flex flex-wrap">
-
-       {forecast.list.map((f:any,i:number)=>(
-        <HourlyIcon key={i} list={f}  timezone={forecast.city.timezone} />
-        ))} 
-               {/*  <HourlyIcon  list={forecast.list[0]}  timezone={forecast.city.timezone} />
- */}
+          <button onClick={indexUp} className="text-[100px] mr-[10px] ml-[50px]">
+            {">"}
+          </button>
         </div>
-    </div>
+      </div>
     </>
   );
 }

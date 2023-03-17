@@ -61,8 +61,7 @@ export default function CityDetail({
 
   return (
     <>
-      <h1>This page is under construction</h1>
-      <div className="w-full flex justify-center">
+      <div className="w-screen flex justify-center">
         <CityWeather data={data} forecast={forecast} />
       </div>
       {inTheList == null ? (
