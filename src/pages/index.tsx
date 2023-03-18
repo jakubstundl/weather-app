@@ -64,6 +64,7 @@ export async function getServerSideProps(ctx: any) {
       });
       if (dataFromDB && verifyCityToken(dataFromDB.token)) {
         data.push(JSON.parse(dataFromDB.data));
+       
       } else {
         const weather = await (
           await fetch(
@@ -106,13 +107,39 @@ export async function getServerSideProps(ctx: any) {
   } else {
     cities = await getRandomCitiesData(12);
     for (let i = 0; i < cities.length; i++) {
-      data.push(
-        await (
+      const dataFromDB = await prisma.cache_city_weather.findUnique({
+        where: { city: cities[i].city },
+      });
+
+      if (dataFromDB && verifyCityToken(dataFromDB.token)) {
+        data.push(JSON.parse(dataFromDB.data));
+        
+      }else {
+        const weather = await (
           await fetch(
             `https://api.openweathermap.org/data/2.5/weather?q=${cities[i].city}&units=metric&APPID=84fe0ab7b8e1da2d85374181442b3639`
           )
-        ).json()
-      );
+        ).json();
+        data.push(weather);
+        await prisma.cache_city_weather.upsert({
+          where: {
+            city: cities[i].city,
+          },
+          update: { token: cityToken(cities[i].city) },
+
+          create: {
+            city: cities[i].city,
+            token: cityToken(cities[i].city),
+            data: JSON.stringify(weather),
+          },
+        });
+        await prisma.cache_city_weather.update({
+          where: { city: cities[i].city },
+          data: {
+            data: JSON.stringify(weather),
+          },
+        });
+      }
       data[i].sys = { ...data[i].sys, countryLong: cities[i].country_long };
       data[i].name = cities[i].city.split(",")[0];
     }
