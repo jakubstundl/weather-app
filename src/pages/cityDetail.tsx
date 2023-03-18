@@ -105,9 +105,11 @@ export default function CityDetail({
 }
 
 export async function getServerSideProps(context: any) {
+  context.res.setHeader('Cache-Control', 's-maxage=900')
   const city = context.query.city;
   const cookies = nookies.get(context);
   let inTheList = null;
+
   const userId = getUserIdFromToken(cookies.accessToken);
   if (userId) {
     const cityList = (
@@ -127,12 +129,14 @@ export async function getServerSideProps(context: any) {
     },
     take: 1,
   });
+
   let country: string = cityData[0].country_long || "";
   const data: CityDetailData = {
     countryLong: country,
     lat: cityData[0].owm_latitude || 0,
     lon: cityData[0].owm_longitude || 0,
   };
+  
   const forecast: HourlyForecast = await (
     await fetch(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&appid=84fe0ab7b8e1da2d85374181442b3639`

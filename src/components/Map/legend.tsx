@@ -110,13 +110,15 @@ export default function Legend({ layer }: { layer: string }) {
               },${(legend[i + 1] || legend[i]).rgba[2]},${
                 (legend[i + 1] || legend[i]).rgba[3]
               }))`,
-              color: `rgba(${255 - l.rgba[0]},${255 - l.rgba[1]},${
-                255 - l.rgba[2]
-              },${255 - l.rgba[3]})`,
+              color: `rgba(${l.rgba[0]},${l.rgba[1]},${
+                l.rgba[2]
+              },${l.rgba[3]})`,
             }}
           >
+            <span className="invert">
             {l.value}
             {unit}
+            </span>
           </div>
         </div>
       ))}
