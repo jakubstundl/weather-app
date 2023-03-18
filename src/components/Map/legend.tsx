@@ -99,7 +99,7 @@ export default function Legend({ layer }: { layer: string }) {
     <div className="flex justify-between">
       {legend?.map((l: any, i: number) => (
         <div key={i} className="w-full">
-          <div
+          <div className="text-center"
             style={{
               backgroundImage: `linear-gradient(to right,rgba(${
                 legend[i].rgba[0]

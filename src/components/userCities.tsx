@@ -11,7 +11,7 @@ export default function userCities({
   return (
     <div>
       <div className="flex justify-center">
-        <div className="flex flex-wrap max-w-[1800px] justify-center">
+        <div className="flex flex-wrap max-w-[1900px] justify-center">
           {data.length > 0 ? (
             data.map((city) => (
               <CityWeatherSmallIcon key={city.id} data={city} user={user} />

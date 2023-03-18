@@ -14,13 +14,14 @@ export default function CityWeather({
   const [timeString, setTimeString] = useState("No time");
   const [index, setIndex] = useState(0);
   const [offset, setOffset] = useState(0);
+  const transition = 800
 
   const indexUp = () => {
     setIndex((prev) => {
       return Math.min(forecast.list.length - 3, prev + 1);
     });
     setOffset((prev) => {
-      return Math.min(11200, prev + 100);
+      return Math.min(11200, prev + transition);
     });
   };
   const indexDown = () => {
@@ -28,7 +29,7 @@ export default function CityWeather({
       return Math.max(0, prev - 1);
     });
     setOffset((prev) => {
-      return Math.max(0, prev - 100);
+      return Math.max(0, prev - transition);
     });
   };
 
@@ -60,7 +61,7 @@ export default function CityWeather({
             timezone={forecast.city.timezone}
           /> */}
           <div className="overflow-hidden relative">
-            <div className="flex relative" style={{ left: `-${offset}px` }}>
+            <div className="flex relative duration-1000" style={{ left: `-${offset}px` }}>
               {forecast.list.map((timeStamp, i) => (
                 <HourlyIcon
                   key={i}

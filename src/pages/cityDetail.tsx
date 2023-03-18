@@ -61,16 +61,21 @@ export default function CityDetail({
 
   return (
     <>
+    <div className="w-full flex justify-center">
+
+    {inTheList == null ? (
+      <></>
+      ) : inTheList ? (
+        <></>
+        ) : (
+          <button onClick={saveCity} className="border-[4px] border-[#3CB371] rounded-xl p-2 mb-10 hover:bg-[#3CB371]"
+          >Add the city to your cities</button>
+          )}
+          </div>
       <div className="w-screen flex justify-center">
         <CityWeather data={data} forecast={forecast} />
       </div>
-      {inTheList == null ? (
-        <></>
-      ) : inTheList ? (
-        <></>
-      ) : (
-        <button onClick={saveCity}>Add the city to your cities</button>
-      )}
+      
       <div className="w-screen flex justify-center">
         <div className="min-w-[1000px] max-w-[1600px] w-full">
           <div className="flex justify-between m-5">

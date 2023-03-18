@@ -26,7 +26,7 @@ const Map = ({ children, className, width, height, ...rest }) => {
   }, []);
 
   return (
-    <MapContainer className={mapClassName} {...rest}>
+    <MapContainer className={mapClassName} scrollWheelZoom={false} {...rest}>
       {children(ReactLeaflet, Leaflet)}
     </MapContainer>
   )

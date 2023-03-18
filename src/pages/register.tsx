@@ -91,7 +91,7 @@ export default function Register() {
                     type="email"
                     required
                     id="email"
-                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-[#3CB371] focus:-translate-y-1 focus:outline-[#3CB371] focus:scale-105 focus:bg-[#3CB371] duration-300"
+                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-[#3CB371] hover:bg-[#3CB371] focus:-translate-y-1 focus:outline-[#3CB371] focus:scale-105 focus:bg-[#3CB371] duration-300"
                   />
                 </div>
               </div>
@@ -103,7 +103,7 @@ export default function Register() {
                   <input
                     type="password"
                     id="password1"
-                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-[#3CB371] focus:-translate-y-1 focus:outline-[#3CB371] focus:scale-105 focus:bg-[#3CB371] duration-300"
+                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-[#3CB371] hover:bg-[#3CB371] focus:-translate-y-1 focus:outline-[#3CB371] focus:scale-105 focus:bg-[#3CB371] duration-300"
                   />
                 </div>
               </div>
@@ -115,7 +115,7 @@ export default function Register() {
                   <input
                     type="password"
                     id="password2"
-                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-[#3CB371] focus:-translate-y-1 focus:outline-[#3CB371] focus:scale-105 focus:bg-[#3CB371] duration-300"
+                    className="text-xl bg-transparent border-2 mt-1 mb-1 rounded-[5px] border-[#3CB371] hover:bg-[#3CB371] focus:-translate-y-1 focus:outline-[#3CB371] focus:scale-105 focus:bg-[#3CB371] duration-300"
                     onKeyDown={(ev: React.KeyboardEvent<HTMLElement>) => {
                       if (ev.key == "Enter") {
                         sendForm();

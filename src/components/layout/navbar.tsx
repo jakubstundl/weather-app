@@ -50,7 +50,7 @@ export default function Navbar() {
           ) : (
             <div>
               <Login setUserActionVisible={setUserActionVisible} />
-              <button className="w-full border-2 mb-1 rounded-[5px] border-[#3CB371] hover:-translate-y-1 hover:scale-105 hover:bg-blue-500 duration-300"
+              <button className="w-full border-2 mb-1 rounded-[5px] border-[#3CB371] hover:-translate-y-1 hover:scale-105 hover:bg-[#3CB371] duration-300"
                 onClick={() => {
                   setUserActionVisible(false);
                   router.push("/register");
