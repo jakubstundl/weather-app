@@ -12,20 +12,20 @@ model User {
   id       String @id @default(cuid())
   email    String @unique
   password String
-  city     City[] 
+  city     City[]
 }
 
 model City {
-  id     Int     @id @default(autoincrement())
+  id     Int    @id @default(autoincrement())
   name   String
   userId String
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
 model City_db {
-  id                  Int    @id @default(autoincrement())
+  id                  Int     @id @default(autoincrement())
   owm_city_id         Int?
   owm_city_name       String?
   owm_latitude        Float?
@@ -46,4 +46,16 @@ model City_db {
   country_short       String?
   country_long        String?
   postal_code         String?
+}
+
+model Cache_city_weather {
+  city  String @id @unique
+  token String @db.VarChar(500)
+  data  String @db.VarChar(10000)
+}
+
+model Cache_city_weather_hourly {
+  city  String @id @unique
+  token String @db.VarChar(500)
+  data  String @db.Text
 }

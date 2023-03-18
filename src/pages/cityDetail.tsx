@@ -7,7 +7,11 @@ import { prisma } from "@/functions/prisma";
 import { City_db } from "@prisma/client";
 import CityWeather from "@/components/cityWeather";
 import { useRouter } from "next/router";
-import { getUserIdFromToken } from "@/functions/auth";
+import {
+  cityToken,
+  getUserIdFromToken,
+  verifyCityToken,
+} from "@/functions/auth";
 import nookies from "nookies";
 import CityWeatherMap from "@/components/Map/leaflet";
 import { useState } from "react";
@@ -61,21 +65,24 @@ export default function CityDetail({
 
   return (
     <>
-    <div className="w-full flex justify-center">
-
-    {inTheList == null ? (
-      <></>
-      ) : inTheList ? (
-        <></>
+      <div className="w-full flex justify-center">
+        {inTheList == null ? (
+          <></>
+        ) : inTheList ? (
+          <></>
         ) : (
-          <button onClick={saveCity} className="border-[4px] border-[#3CB371] rounded-xl p-2 mb-10 hover:bg-[#3CB371]"
-          >Add the city to your cities</button>
-          )}
-          </div>
+          <button
+            onClick={saveCity}
+            className="border-[4px] border-[#3CB371] rounded-xl p-2 mb-10 hover:bg-[#3CB371]"
+          >
+            Add the city to your cities
+          </button>
+        )}
+      </div>
       <div className="w-screen flex justify-center">
         <CityWeather data={data} forecast={forecast} />
       </div>
-      
+
       <div className="w-screen flex justify-center">
         <div className="min-w-[1000px] max-w-[1600px] w-full">
           <div className="flex justify-between m-5">
@@ -136,12 +143,39 @@ export async function getServerSideProps(context: any) {
     lat: cityData[0].owm_latitude || 0,
     lon: cityData[0].owm_longitude || 0,
   };
-  
-  const forecast: HourlyForecast = await (
-    await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&appid=84fe0ab7b8e1da2d85374181442b3639`
-    )
-  ).json();
+
+  const dataFromDB = await prisma.cache_city_weather_hourly.findUnique({
+    where: { city: city },
+  });
+  let forecast: HourlyForecast;
+  if (dataFromDB && verifyCityToken(dataFromDB.token)) {
+    forecast = JSON.parse(dataFromDB.data);
+  } else {
+    forecast = await (
+      await fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&appid=84fe0ab7b8e1da2d85374181442b3639`
+      )
+    ).json();
+    console.log(JSON.stringify(forecast).length);
+    await prisma.cache_city_weather_hourly.upsert({
+      where: {
+        city: city,
+      },
+      update: { token: cityToken(city) },
+
+      create: {
+        city: city,
+        token: cityToken(city),
+        data: JSON.stringify(forecast),
+      },
+    });
+    await prisma.cache_city_weather_hourly.update({
+      where: { city: city },
+      data: {
+        data: JSON.stringify(forecast),
+      },
+    });
+  }
 
   return {
     props: { data, inTheList, forecast },

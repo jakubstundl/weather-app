@@ -12,7 +12,7 @@ export const login = async (
     where: { email: email },
   });
   console.log(isUser(user));
-  
+
   if (isUser(user) && hashPassword(password) === user.password) {
     return await accessToken(email, user.id);
   }
@@ -61,4 +61,28 @@ export const getUserIdFromToken = (token: string): string | null => {
     }
   }
   return null;
+};
+
+export const verifyCityToken = (token: string): boolean => {
+  const secret = process.env.JWT_ACCESS_SECRET;
+  if (typeof secret === "string") {
+    try {
+      const t = jwt.verify(token, secret);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+  return false;
+};
+
+export const cityToken = (cityName: string): string => {
+  const secret = process.env.JWT_ACCESS_SECRET;
+  if (typeof secret == "string") {
+    return jwt.sign({ cityName: cityName }, secret, {
+      expiresIn: "15m",
+    });
+  } else {
+    return "no token";
+  }
 };
