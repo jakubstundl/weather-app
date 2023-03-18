@@ -50,12 +50,12 @@ model City_db {
 
 model Cache_city_weather {
   city  String @id @unique
-  token String @db.VarChar(500)
-  data  String @db.VarChar(10000)
+  timeStamp String @db.Text
+  data  String @db.Text
 }
 
 model Cache_city_weather_hourly {
   city  String @id @unique
-  token String @db.VarChar(500)
+  timeStamp String @db.Text
   data  String @db.Text
 }

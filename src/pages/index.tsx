@@ -1,10 +1,7 @@
 import Head from "next/head";
 import nookies from "nookies";
 import {
-  cityToken,
-  getEmailFromToken,
   getUserIdFromToken,
-  verifyCityToken,
 } from "@/functions/auth";
 import { Inter } from "next/font/google";
 import UserCities from "@/components/userCities";
@@ -14,6 +11,7 @@ import CitySearch from "@/components/citySearch";
 import { prisma } from "@/functions/prisma";
 import { City } from "@prisma/client";
 import { stringify } from "querystring";
+import { verifyCityCache } from "@/functions/cacheValidation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -62,7 +60,7 @@ export async function getServerSideProps(ctx: any) {
       const dataFromDB = await prisma.cache_city_weather.findUnique({
         where: { city: cities[i].name },
       });
-      if (dataFromDB && verifyCityToken(dataFromDB.token)) {
+      if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp),Date.now())) {
         data.push(JSON.parse(dataFromDB.data));
        
       } else {
@@ -76,11 +74,11 @@ export async function getServerSideProps(ctx: any) {
           where: {
             city: cities[i].name,
           },
-          update: { token: cityToken(cities[i].name) },
+          update: { timeStamp: `${Date.now()}` },
 
           create: {
             city: cities[i].name,
-            token: cityToken(cities[i].name),
+            timeStamp: `${Date.now()}`,
             data: JSON.stringify(weather),
           },
         });
@@ -106,12 +104,13 @@ export async function getServerSideProps(ctx: any) {
     }
   } else {
     cities = await getRandomCitiesData(12);
+    
     for (let i = 0; i < cities.length; i++) {
       const dataFromDB = await prisma.cache_city_weather.findUnique({
         where: { city: cities[i].city },
       });
 
-      if (dataFromDB && verifyCityToken(dataFromDB.token)) {
+      if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp), Date.now())) {
         data.push(JSON.parse(dataFromDB.data));
         
       }else {
@@ -121,15 +120,17 @@ export async function getServerSideProps(ctx: any) {
           )
         ).json();
         data.push(weather);
+        console.log(Date.now());
+        
         await prisma.cache_city_weather.upsert({
           where: {
             city: cities[i].city,
           },
-          update: { token: cityToken(cities[i].city) },
+          update: { timeStamp: `${Date.now()}` },
 
           create: {
             city: cities[i].city,
-            token: cityToken(cities[i].city),
+            timeStamp: `${Date.now()}`,
             data: JSON.stringify(weather),
           },
         });

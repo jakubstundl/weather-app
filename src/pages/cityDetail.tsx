@@ -7,15 +7,12 @@ import { prisma } from "@/functions/prisma";
 import { City_db } from "@prisma/client";
 import CityWeather from "@/components/cityWeather";
 import { useRouter } from "next/router";
-import {
-  cityToken,
-  getUserIdFromToken,
-  verifyCityToken,
-} from "@/functions/auth";
+import { getUserIdFromToken } from "@/functions/auth";
 import nookies from "nookies";
 import CityWeatherMap from "@/components/Map/leaflet";
 import { useState } from "react";
 import Legend from "@/components/Map/legend";
+import { verifyCityCache } from "@/functions/cacheValidation";
 
 export default function CityDetail({
   data,
@@ -148,7 +145,7 @@ export async function getServerSideProps(context: any) {
     where: { city: city },
   });
   let forecast: HourlyForecast;
-  if (dataFromDB && verifyCityToken(dataFromDB.token)) {
+  if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp), Date.now())) {
     forecast = JSON.parse(dataFromDB.data);
   } else {
     forecast = await (
@@ -161,11 +158,11 @@ export async function getServerSideProps(context: any) {
       where: {
         city: city,
       },
-      update: { token: cityToken(city) },
+      update: { timeStamp: `${Date.now()}` },
 
       create: {
         city: city,
-        token: cityToken(city),
+        timeStamp: `${Date.now()}`,
         data: JSON.stringify(forecast),
       },
     });
