@@ -32,7 +32,7 @@ export default function Home({ data, user }: { data: openWeatherData[]; user: st
 }
 
 export async function getServerSideProps(ctx: any) {
-  ctx.res.setHeader('Cache-Control', 's-maxage=900')
+  //ctx.res.setHeader('Cache-Control', 's-maxage=900')
   // Parse
   const cookies = nookies.get(ctx);
   let cities: cityForFE[] | null | City[];

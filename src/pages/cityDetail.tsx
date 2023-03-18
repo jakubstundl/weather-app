@@ -105,7 +105,7 @@ export default function CityDetail({
 }
 
 export async function getServerSideProps(context: any) {
-  context.res.setHeader('Cache-Control', 's-maxage=900')
+  //context.res.setHeader('Cache-Control', 's-maxage=900')
   const city = context.query.city;
   const cookies = nookies.get(context);
   let inTheList = null;
