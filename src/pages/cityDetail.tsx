@@ -13,6 +13,7 @@ import CityWeatherMap from "@/components/Map/leaflet";
 import { useState } from "react";
 import Legend from "@/components/Map/legend";
 import { verifyCityCache } from "@/functions/cacheValidation";
+import { cache } from "@/functions/cache";
 
 export default function CityDetail({
   data,
@@ -145,16 +146,22 @@ export async function getServerSideProps(context: any) {
     where: { city: city },
   });
   let forecast: HourlyForecast;
-  if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp), Date.now())) {
-    forecast = JSON.parse(dataFromDB.data);
+ // if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp), Date.now())) {
+    if (cache.hourlyWeather.get(city) && verifyCityCache(cache.hourlyWeather.get(city)?.timeStamp||0, Date.now())) {
+      //    forecast = JSON.parse(dataFromDB.data);
+    forecast = cache.hourlyWeather.get(city)!.data;
+    console.log(cache.hourlyWeather.get(city)!.timeStamp);
+    console.log("got from cache");
+    
+
   } else {
+    console.log("got from api");    
     forecast = await (
       await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&appid=84fe0ab7b8e1da2d85374181442b3639`
       )
     ).json();
-    console.log(JSON.stringify(forecast).length);
-    await prisma.cache_city_weather_hourly.upsert({
+    /* await prisma.cache_city_weather_hourly.upsert({
       where: {
         city: city,
       },
@@ -171,7 +178,8 @@ export async function getServerSideProps(context: any) {
       data: {
         data: JSON.stringify(forecast),
       },
-    });
+    }); */
+    cache.hourlyWeather.set(city,{timeStamp:Date.now(),data:forecast})
   }
 
   return {

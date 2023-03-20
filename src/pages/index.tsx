@@ -12,6 +12,7 @@ import { prisma } from "@/functions/prisma";
 import { City } from "@prisma/client";
 import { stringify } from "querystring";
 import { verifyCityCache } from "@/functions/cacheValidation";
+import { cache } from "@/functions/cache";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -60,9 +61,11 @@ export async function getServerSideProps(ctx: any) {
       const dataFromDB = await prisma.cache_city_weather.findUnique({
         where: { city: cities[i].name },
       });
-      if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp),Date.now())) {
-        data.push(JSON.parse(dataFromDB.data));
-       
+    //  if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp),Date.now())) {
+      if (cache.smallIconWeather.get(cities[i].name) && verifyCityCache(cache.smallIconWeather.get(cities[i].name)!.timeStamp,Date.now())) {
+
+       // data.push(JSON.parse(dataFromDB.data));
+        data.push(cache.smallIconWeather.get(cities[i].name)!.data);       
       } else {
         const weather = await (
           await fetch(
@@ -70,7 +73,7 @@ export async function getServerSideProps(ctx: any) {
           )
         ).json();
         data.push(weather);
-        await prisma.cache_city_weather.upsert({
+       /*  await prisma.cache_city_weather.upsert({
           where: {
             city: cities[i].name,
           },
@@ -87,7 +90,8 @@ export async function getServerSideProps(ctx: any) {
           data: {
             data: JSON.stringify(weather),
           },
-        });
+        }); */
+        cache.smallIconWeather.set(cities[i].name,{timeStamp:Date.now(),data:weather})
       }
 
       const country = await prisma.city_db.findMany({
@@ -109,10 +113,13 @@ export async function getServerSideProps(ctx: any) {
       const dataFromDB = await prisma.cache_city_weather.findUnique({
         where: { city: cities[i].city },
       });
+      if (cache.smallIconWeather.get(cities[i].city) && verifyCityCache(cache.smallIconWeather.get(cities[i].city)!.timeStamp,Date.now())) {
 
-      if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp), Date.now())) {
-        data.push(JSON.parse(dataFromDB.data));
-        
+      //if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp), Date.now())) {
+       // data.push(JSON.parse(dataFromDB.data));
+       data.push(cache.smallIconWeather.get(cities[i].city)!.data);       
+console.log("got from cache");
+
       }else {
         const weather = await (
           await fetch(
@@ -120,7 +127,7 @@ export async function getServerSideProps(ctx: any) {
           )
         ).json();
         data.push(weather);
-        console.log(Date.now());
+        /* console.log(Date.now());
         
         await prisma.cache_city_weather.upsert({
           where: {
@@ -139,7 +146,10 @@ export async function getServerSideProps(ctx: any) {
           data: {
             data: JSON.stringify(weather),
           },
-        });
+        }); */
+        cache.smallIconWeather.set(cities[i].city,{timeStamp:Date.now(),data:weather})
+console.log("from api");
+
       }
       data[i].sys = { ...data[i].sys, countryLong: cities[i].country_long };
       data[i].name = cities[i].city.split(",")[0];
