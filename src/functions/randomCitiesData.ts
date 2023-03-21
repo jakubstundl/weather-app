@@ -1,6 +1,6 @@
-import { id } from "@/pages/api/cityIDs";
+import { id } from "./cityIDs";
 import { prisma } from "./prisma";
-import { cityForFE } from "@/interfaces/fetchedData";
+import { cityForFE } from "../interfaces/fetchedData";
 
 export const getRandomCitiesData = async (
   n: number

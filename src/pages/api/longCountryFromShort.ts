@@ -1,6 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { prisma } from "@/functions/prisma";
-import { City_db } from "@prisma/client";
+import { prisma } from "../../functions/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {

@@ -12,7 +12,6 @@ export default async function handler(
 ) {
   let userCreated:boolean = false;
   let message: string = "Default";
-  console.log(req.body.email);
   
   try {
     await prisma.user.create({
@@ -28,7 +27,6 @@ export default async function handler(
   }
 
   if (userCreated) {
-    console.log(message)
     res.status(201).json({ message: message });
   } else {
     res.status(400).json({ message: message });

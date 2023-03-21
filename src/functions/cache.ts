@@ -1,4 +1,4 @@
-import { HourlyForecast, openWeatherData } from "@/interfaces/fetchedData";
+import { HourlyForecast, openWeatherData } from "../interfaces/fetchedData";
 
 export class Cache {
 hourlyWeather  = new Map<string,{timeStamp:number, data: HourlyForecast}>();

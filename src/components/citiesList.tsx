@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { isInput } from "@/predicates";
+import { isInput } from "../predicates";
 
 export default function CitiesList({ hidden }: { hidden: boolean }) {
   const [cities, setCities] = useState<string[]>([]);
@@ -11,7 +11,6 @@ export default function CitiesList({ hidden }: { hidden: boolean }) {
       .then((data) => setCities(data.cities));
   };
   const removeCity = (name: string) => {
-    console.log(name);
 
     const data = { name: name };
 
@@ -24,16 +23,15 @@ export default function CitiesList({ hidden }: { hidden: boolean }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+       // console.log("Success:", data);
         getCities();
       })
       .catch((error) => {
-        console.error("Error:", error);
+        //console.error("Error:", error);
       });
   };
 
   const addCity = (name: string) => {
-    console.log(name);
 
     const data = { name: name };
 
@@ -46,11 +44,11 @@ export default function CitiesList({ hidden }: { hidden: boolean }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        //console.log("Success:", data);
         getCities();
       })
       .catch((error) => {
-        console.error("Error:", error);
+        //console.error("Error:", error);
       });
   };
   useEffect(() => {

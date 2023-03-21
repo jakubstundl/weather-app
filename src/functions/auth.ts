@@ -1,8 +1,8 @@
 import { prisma } from "./prisma";
 import * as crypto from "crypto";
 import jwt from "jsonwebtoken";
-import { isUser } from "@/predicates";
-import { User, City } from "@prisma/client";
+import { isUser } from "../predicates";
+import { User } from "@prisma/client";
 
 export const login = async (
   email: string,
@@ -11,7 +11,6 @@ export const login = async (
   const user: User | null = await prisma.user.findUnique({
     where: { email: email },
   });
-  console.log(isUser(user));
 
   if (isUser(user) && hashPassword(password) === user.password) {
     return await accessToken(email, user.id);

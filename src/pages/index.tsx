@@ -1,18 +1,15 @@
 import Head from "next/head";
 import nookies from "nookies";
-import {
-  getUserIdFromToken,
-} from "@/functions/auth";
+import { getUserIdFromToken } from "../functions/auth";
 import { Inter } from "next/font/google";
-import UserCities from "@/components/userCities";
-import { getRandomCitiesData } from "@/functions/randomCitiesData";
-import { cityForFE, openWeatherData } from "@/interfaces/fetchedData";
-import CitySearch from "@/components/citySearch";
-import { prisma } from "@/functions/prisma";
+import UserCities from "../components/userCities";
+import { getRandomCitiesData } from "../functions/randomCitiesData";
+import { cityForFE, openWeatherData } from "../interfaces/fetchedData";
+import CitySearch from "../components/citySearch";
+import { prisma } from "../functions/prisma";
 import { City } from "@prisma/client";
-import { stringify } from "querystring";
-import { verifyCityCache } from "@/functions/cacheValidation";
-import { cache } from "@/functions/cache";
+import { verifyCityCache } from "../functions/cacheValidation";
+import { cache } from "../functions/cache";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,8 +20,6 @@ export default function Home({
   data: openWeatherData[];
   user: string | null;
 }) {
-  console.log(data[0]);
-
   return (
     <>
       <Head>
@@ -34,7 +29,7 @@ export default function Home({
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      <div>
+      <div data-testid="result">
         <CitySearch />
         <UserCities data={data} user={user} />
       </div>
@@ -61,11 +56,16 @@ export async function getServerSideProps(ctx: any) {
       const dataFromDB = await prisma.cache_city_weather.findUnique({
         where: { city: cities[i].name },
       });
-    //  if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp),Date.now())) {
-      if (cache.smallIconWeather.get(cities[i].name) && verifyCityCache(cache.smallIconWeather.get(cities[i].name)!.timeStamp,Date.now())) {
-
-       // data.push(JSON.parse(dataFromDB.data));
-        data.push(cache.smallIconWeather.get(cities[i].name)!.data);       
+      //  if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp),Date.now())) {
+      if (
+        cache.smallIconWeather.get(cities[i].name) &&
+        verifyCityCache(
+          cache.smallIconWeather.get(cities[i].name)!.timeStamp,
+          Date.now()
+        )
+      ) {
+        // data.push(JSON.parse(dataFromDB.data));
+        data.push(cache.smallIconWeather.get(cities[i].name)!.data);
       } else {
         const weather = await (
           await fetch(
@@ -73,7 +73,7 @@ export async function getServerSideProps(ctx: any) {
           )
         ).json();
         data.push(weather);
-       /*  await prisma.cache_city_weather.upsert({
+        /*  await prisma.cache_city_weather.upsert({
           where: {
             city: cities[i].name,
           },
@@ -91,7 +91,10 @@ export async function getServerSideProps(ctx: any) {
             data: JSON.stringify(weather),
           },
         }); */
-        cache.smallIconWeather.set(cities[i].name,{timeStamp:Date.now(),data:weather})
+        cache.smallIconWeather.set(cities[i].name, {
+          timeStamp: Date.now(),
+          data: weather,
+        });
       }
 
       const country = await prisma.city_db.findMany({
@@ -108,19 +111,23 @@ export async function getServerSideProps(ctx: any) {
     }
   } else {
     cities = await getRandomCitiesData(12);
-    
+
     for (let i = 0; i < cities.length; i++) {
       const dataFromDB = await prisma.cache_city_weather.findUnique({
         where: { city: cities[i].city },
       });
-      if (cache.smallIconWeather.get(cities[i].city) && verifyCityCache(cache.smallIconWeather.get(cities[i].city)!.timeStamp,Date.now())) {
-
-      //if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp), Date.now())) {
-       // data.push(JSON.parse(dataFromDB.data));
-       data.push(cache.smallIconWeather.get(cities[i].city)!.data);       
-console.log("got from cache");
-
-      }else {
+      if (
+        cache.smallIconWeather.get(cities[i].city) &&
+        verifyCityCache(
+          cache.smallIconWeather.get(cities[i].city)!.timeStamp,
+          Date.now()
+        )
+      ) {
+        //if (dataFromDB && verifyCityCache(Number(dataFromDB.timeStamp), Date.now())) {
+        // data.push(JSON.parse(dataFromDB.data));
+        data.push(cache.smallIconWeather.get(cities[i].city)!.data);
+        //console.log("got from cache");
+      } else {
         const weather = await (
           await fetch(
             `https://api.openweathermap.org/data/2.5/weather?q=${cities[i].city}&units=metric&APPID=84fe0ab7b8e1da2d85374181442b3639`
@@ -147,9 +154,11 @@ console.log("got from cache");
             data: JSON.stringify(weather),
           },
         }); */
-        cache.smallIconWeather.set(cities[i].city,{timeStamp:Date.now(),data:weather})
-console.log("from api");
-
+        cache.smallIconWeather.set(cities[i].city, {
+          timeStamp: Date.now(),
+          data: weather,
+        });
+        //console.log("from api");
       }
       data[i].sys = { ...data[i].sys, countryLong: cities[i].country_long };
       data[i].name = cities[i].city.split(",")[0];

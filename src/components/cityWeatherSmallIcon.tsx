@@ -1,10 +1,10 @@
-import { openWeatherData } from "@/interfaces/fetchedData";
+import { openWeatherData } from "../interfaces/fetchedData";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import wind from "../../public/wind-arrow.png";
 import temperatureMeter from "../../public/thermometer.png";
 import pressure from "../../public/pressure-indicator.png";
-import { windRotate } from "@/functions/windRotate";
+import { windRotate } from "../functions/windRotate";
 import { useRouter } from "next/router";
 
 export default function CityWeatherSmallIcon({
@@ -32,11 +32,11 @@ export default function CityWeatherSmallIcon({
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+       // console.log("Success:", data);
         router.reload();
       })
       .catch((error) => {
-        console.error("Error:", error);
+       // console.error("Error:", error);
       });
   };
   useEffect(() => {

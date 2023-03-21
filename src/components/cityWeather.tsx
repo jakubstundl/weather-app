@@ -1,7 +1,5 @@
-import { CityDetailData, HourlyForecast } from "@/interfaces/fetchedData";
+import { CityDetailData, HourlyForecast } from "../interfaces/fetchedData";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import { useRouter } from "next/router";
 import HourlyIcon from "./hourlyIcon";
 
 export default function CityWeather({

@@ -1,14 +1,4 @@
-/* export const windRotate = ():any =>{
-let obj = {}
-for(let i = 0; i < 360; i++){
-obj = {...obj, [i]:`rotate-${i}`}
-}
-console.log(obj);
-
-return obj
-} */
-
-export const windRotate:any = {
+export const windRotate:{[k:string]:string} = {
     '0': 'rotate-[0deg]     -z-10',
     '1': 'rotate-[1deg]     -z-10',
     '2': 'rotate-[2deg]     -z-10',

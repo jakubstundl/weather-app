@@ -1,19 +1,18 @@
 import {
   CityDetailData,
   HourlyForecast,
-  openWeatherData,
-} from "@/interfaces/fetchedData";
-import { prisma } from "@/functions/prisma";
+} from "../interfaces/fetchedData";
+import { prisma } from "../functions/prisma";
 import { City_db } from "@prisma/client";
-import CityWeather from "@/components/cityWeather";
+import CityWeather from "../components/cityWeather";
 import { useRouter } from "next/router";
-import { getUserIdFromToken } from "@/functions/auth";
+import { getUserIdFromToken } from "../functions/auth";
 import nookies from "nookies";
-import CityWeatherMap from "@/components/Map/leaflet";
+import CityWeatherMap from "../components/Map/leaflet";
 import { useState } from "react";
-import Legend from "@/components/Map/legend";
-import { verifyCityCache } from "@/functions/cacheValidation";
-import { cache } from "@/functions/cache";
+import Legend from "../components/Map/legend";
+import { verifyCityCache } from "../functions/cacheValidation";
+import { cache } from "../functions/cache";
 
 export default function CityDetail({
   data,

@@ -1,4 +1,4 @@
-import { openWeatherData } from "@/interfaces/fetchedData";
+import { openWeatherData } from "../interfaces/fetchedData";
 import CityWeatherSmallIcon from "./cityWeatherSmallIcon";
 
 export default function userCities({

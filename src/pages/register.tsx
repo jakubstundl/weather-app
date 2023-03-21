@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { userRegistrationData } from "../interfaces/userData";
-import { isInput, isForm } from "@/predicates";
+import { isInput, isForm } from "../predicates";
 import validator from "validator";
 
 export default function Register() {
@@ -23,7 +23,7 @@ export default function Register() {
         email: form.current.elements[0].value,
         password: form.current.elements[1].value,
       };
-      console.log(data.email);
+     
 
       fetch("api/auth/register", {
         method: "POST",
@@ -34,7 +34,7 @@ export default function Register() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Server reached:", data);
+          //console.log("Server reached:", data);
           if (data.message == "User has been created" && formWrapper.current) {
             formWrapper.current.innerHTML =
               `<div className="w-full flex justify-center"><div>Your account has been created, you can now login.</div></div>`;
@@ -45,7 +45,7 @@ export default function Register() {
           }
         })
         .catch((error) => {
-          console.error("Error:", error);
+         // console.error("Error:", error);
         });
     } else {
       if (
@@ -58,13 +58,13 @@ export default function Register() {
         if (validator.isEmail(form.current.elements[0].value) == false) {
           errorField.current.innerHTML = "Enter valid e-mail address";
         } else {
-          console.log("Email is valid");
+         // console.log("Email is valid");
           if (
             form.current.elements[1].value !== form.current.elements[2].value
           ) {
             errorField.current.innerHTML = "Passwords do not match";
           } else {
-            console.log("Passwords match");
+           // console.log("Passwords match");
             if (form.current.elements[1].value.length < minPWLength) {
               errorField.current.innerHTML = "Password is too short.";
             }

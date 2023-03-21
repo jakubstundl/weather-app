@@ -1,7 +1,7 @@
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { useRef } from "react";
 import { userLoginData } from "../interfaces/userData";
-import { isInput, isForm } from "@/predicates";
+import { isInput, isForm } from "../predicates";
 import { useRouter } from "next/router";
 
 export default function Login({
@@ -34,7 +34,7 @@ export default function Login({
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Server reached:", data);
+         // console.log("Server reached:", data);
           if (data.token) {
             setCookie(null, "accessToken", data.token, {
               maxAge: 8 * 24 * 60 * 60,
@@ -50,7 +50,7 @@ export default function Login({
           }
         })
         .catch((error) => {
-          console.log("here", error);
+         // console.log("here", error);
         });
     }
   };
