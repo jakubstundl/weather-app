@@ -29,7 +29,7 @@ export default function Home({
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      <div data-testid="result">
+      <div>
         <CitySearch />
         <UserCities data={data} user={user} />
       </div>

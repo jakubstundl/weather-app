@@ -35,6 +35,7 @@ export default function Navbar() {
       <div className="fixed p-[5px] right-2 top-2 z-10 backdrop-blur-sm  border-[6px] rounded-[5px] border-[#3CB371]">
         <div className="flex w-full justify-center">
           <button className="hover:invert-0"
+          id="user-button"
             onClick={() => {
               setUserActionVisible(true);
             }}

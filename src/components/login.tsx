@@ -76,6 +76,7 @@ export default function Login({
             className="bg-transparent border-2 border-[#3CB371] rounded-[5px] focus::-translate-y-1 focus:scale-105 hover:bg-[#3CB371] duration-300 focus:outline-[#3CB371]"
           />
           <button
+          id="login-submit"
             className="border-2 m-2 rounded-[5px] border-[#3CB371] hover:-translate-y-1 hover:scale-105 hover:bg-[#3CB371] duration-300"
             type="button"
             onClick={() => {
