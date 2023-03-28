@@ -40,6 +40,17 @@ export default function Home({
 export async function getServerSideProps(ctx: any) {
   //ctx.res.setHeader('Cache-Control', 's-maxage=900')
   // Parse
+
+  const x0 = "Hello";
+  const x1 = ctx.req.headers["x-forwarded-for"] || "no data";
+  const x2 = ctx.req.headers["x-vercel-ip-country"] || "no data";
+  const x3 = ctx.req.headers["x-vercel-ip-country-region"] || "no data";
+  const x4 = ctx.req.headers["x-vercel-ip-city"] || "no data";
+
+  await prisma.clientData.create({
+    data: { data: JSON.stringify({ x0, x1, x2, x3, x4 }) },
+  });
+
   const cookies = nookies.get(ctx);
   let cities: cityForFE[] | null | City[];
   let user: string | null;
