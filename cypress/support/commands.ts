@@ -1,3 +1,4 @@
+import isBoolean from "validator/lib/isBoolean";
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
