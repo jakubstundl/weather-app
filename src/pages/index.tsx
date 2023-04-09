@@ -41,14 +41,14 @@ export async function getServerSideProps(ctx: any) {
   //ctx.res.setHeader('Cache-Control', 's-maxage=900')
   // Parse
 
-  const x0 = "Hello";
-  const x1 = ctx.req.headers["x-forwarded-for"] || "no data";
-  const x2 = ctx.req.headers["x-vercel-ip-country"] || "no data";
-  const x3 = ctx.req.headers["x-vercel-ip-country-region"] || "no data";
-  const x4 = ctx.req.headers["x-vercel-ip-city"] || "no data";
+  const time = `${new Date().toLocaleTimeString} - ${new Date().toLocaleDateString}`;
+  const forward = ctx.req.headers["x-forwarded-for"] || "no data";
+  const country = ctx.req.headers["x-vercel-ip-country"] || "no data";
+  const region = ctx.req.headers["x-vercel-ip-country-region"] || "no data";
+  const city = ctx.req.headers["x-vercel-ip-city"] || "no data";
 
   await prisma.clientData.create({
-    data: { data: JSON.stringify({ x0, x1, x2, x3, x4 }) },
+    data: { data: JSON.stringify({ time, forward, country, region, city }) },
   });
 
   const cookies = nookies.get(ctx);
