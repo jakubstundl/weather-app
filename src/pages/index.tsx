@@ -41,7 +41,7 @@ export async function getServerSideProps(ctx: any) {
   //ctx.res.setHeader('Cache-Control', 's-maxage=900')
   // Parse
 
-  const time = `${new Date().toLocaleTimeString} - ${new Date().toLocaleDateString}`;
+  const time = `${new Date().toLocaleTimeString()} - ${new Date().toLocaleDateString()}`;
   const forward = ctx.req.headers["x-forwarded-for"] || "no data";
   const country = ctx.req.headers["x-vercel-ip-country"] || "no data";
   const region = ctx.req.headers["x-vercel-ip-country-region"] || "no data";
