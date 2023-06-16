@@ -157,7 +157,7 @@ export async function getServerSideProps(context: any) {
     console.log("got from api");    
     forecast = await (
       await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&appid=84fe0ab7b8e1da2d85374181442b3639`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&appid=df46053388821997fce0ff86424cdea6`
       )
     ).json();
     /* await prisma.cache_city_weather_hourly.upsert({

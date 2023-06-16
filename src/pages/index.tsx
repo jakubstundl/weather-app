@@ -80,7 +80,7 @@ export async function getServerSideProps(ctx: any) {
       } else {
         const weather = await (
           await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${cities[i].name}&units=metric&APPID=84fe0ab7b8e1da2d85374181442b3639`
+            `https://api.openweathermap.org/data/2.5/weather?q=${cities[i].name}&units=metric&APPID=df46053388821997fce0ff86424cdea6`
           )
         ).json();
         data.push(weather);
@@ -141,7 +141,7 @@ export async function getServerSideProps(ctx: any) {
       } else {
         const weather = await (
           await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${cities[i].city}&units=metric&APPID=84fe0ab7b8e1da2d85374181442b3639`
+            `https://api.openweathermap.org/data/2.5/weather?q=${cities[i].city}&units=metric&APPID=df46053388821997fce0ff86424cdea6`
           )
         ).json();
         data.push(weather);
